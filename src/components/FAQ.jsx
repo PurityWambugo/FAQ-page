@@ -30,6 +30,12 @@ const FAQ = () => {
         "You can contact our customer support via email at the provided email address or call our support hotline during business hours.",
       isOpen: false,
     },
+    {
+      question: "What payment methods do you accept?",
+      answer:
+        "We accept various payment methods including credit/debit cards, PayPal, and other secure payment options.",
+      isOpen: false,
+    },
   ]);
 
   // Function to toggle a single FAQ, closing all others
@@ -43,11 +49,10 @@ const FAQ = () => {
   };
 
   return (
-    <div className="bg-white w-full min-h-screen py-10 font-sans">
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" />
+    <div className="bg-white w-full min-h-screen py-10 font-sans overflow-y-hidden">
 
       {/* Container for the entire FAQ section */}
-      <div className="p-6 max-w-xl mx-auto rounded-lg content-center items-center mt-10">
+      <div className="max-w-xl mx-auto rounded-lg content-center items-center overflow-y-hidden mt-10">
         
         {/* Main heading for the FAQ section */}
         <h1 className="text-4xl font-bold mb-2 text-gray-800 text-center relative after:absolute after:bottom-[-8px] after:left-1/2 after:-translate-x-1/2 after:w-1/4 after:h-[3px] after:bg-orange-500 after:rounded-full">Frequently Asked Questions</h1>
@@ -57,17 +62,19 @@ const FAQ = () => {
         {faqs.map((faq, index) => (
           <div 
             key={index} 
-            className={`mb-4 rounded-lg border-b border-orange-300 shadow-md w-full transition-all duration-500 hover:shadow-2xl hover:shadow-gray-400 ${faq.isOpen ? 'shadow-lg shadow-orange-500/50' : 'bg-gray-50 shadow-black/20'}`}
+            className={`mb-4 rounded-lg border-b border-orange-300 shadow-md w-full transition-all duration-200`}
           >
             {/* The main button that toggles the answer visibility */}
-            <button
+            <motion.button
               onClick={() => toggleFAQ(index)}
               aria-expanded={faq.isOpen}
               aria-controls={`faq-answer-${index}`}
               className={`flex items-center gap-2 w-full text-left text-lg focus:outline-none p-4 font-semibold transition-colors rounded-t-lg ${faq.isOpen ? 'bg-orange-100 text-gray-900' : 'bg-gray-50 text-gray-700 hover:bg-gray-100'}`}
+              whileHover={{ y: -2 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
             >
               {/* span contains the question text*/}
-              <span className="flex-1 min-w-0 pr-2  text-wrap transition-colors">
+              <span className="flex-1 min-w-0 pr-2 text-wrap transition-colors">
                 {faq.question}
               </span>
 
@@ -78,7 +85,7 @@ const FAQ = () => {
                   <CirclePlus className="text-gray-400" />
                 )}
               </div>
-            </button>
+            </motion.button>
 
             {/* Rendering the AnimatePresence component */}
             <AnimatePresence>
@@ -89,12 +96,17 @@ const FAQ = () => {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="p-4 bg-white relative before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:h-8 before:w-1 before:bg-orange-400 before:rounded-full"
+                  transition={{ 
+                    duration: 0.3,
+                    ease: "easeInOut"
+                  }}
+                  className="bg-white relative before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:h-8 before:w-1 before:bg-orange-400 before:rounded-full overflow-hidden"
                 >
-                  <p className="text-gray-600 pl-4">
-                    {faq.answer}
-                  </p>
+                  <div className="p-4">
+                    <p className="text-gray-600 pl-4">
+                      {faq.answer}
+                    </p>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
